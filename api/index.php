@@ -24,6 +24,11 @@ class API
 
     private function handleGetRequest() 
     {
+        if(isset($_GET['email'])) {
+            $user = User::getByEmail($_GET['email']);
+            $this->sendResponse($user->toArray());
+        }
+
         if (isset($_GET['status']) && $_GET['status'] === 'online') {
             $users = User::getOnlineUsers();
         } else {
