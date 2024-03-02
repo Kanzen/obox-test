@@ -1,9 +1,9 @@
-export function displayWelcomeMessage(username) {
+export function displayWelcomeMessage(user) {
     const welcomeContainer = document.getElementById('app-container');
 
     const welcomeMessage = `
-        <h1>Welcome, ${username}!</h1>
-        <p>This is a dynamic sub-message in the dashboard.</p>
+        <h1>Welcome, ${user.name}!</h1>
+        <p>You logged in at ${new Date(user.entrance_time).toLocaleTimeString()}</p>
     `;
 
     welcomeContainer.innerHTML = welcomeMessage;
