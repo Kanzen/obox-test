@@ -1,4 +1,4 @@
-const apiService = {
+export const apiService = {
     async postData(url = '', data = {}) {
         const response = await fetch(url, {
             method: 'POST',

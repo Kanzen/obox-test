@@ -1,6 +1,6 @@
-// app.js
 import { displayEntranceForm } from './components/entrance.js';
 import { displayWelcomeMessage } from './components/dashboard.js';
+import { apiService } from './services/apiService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -14,20 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = nameInput.value;
         const email = emailInput.value;
 
-        const response = await fetch('http://localhost:8888/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email })
-        });
+        try {
+            const response = await apiService.postData('/', { name, email });
 
-        if (response.ok) {
-            displayWelcomeMessage(name);
-        } else {
-            // Handle error response
-            console.error('Failed to make the POST request');
+            if (response.status=='success') {
+                displayWelcomeMessage(response['user_details']);
+            } else {
+                console.error('API request was not successful');
+            }
+        } catch (error) {
+            console.error('Error making API request:', error);
         }
     });
 });
-
