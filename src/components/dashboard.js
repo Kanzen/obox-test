@@ -1,3 +1,5 @@
+import { displayOnlineUsers } from "./usersOnlineList.js";
+
 export function displayWelcomeMessage(user) {
     const welcomeContainer = document.getElementById('app-container');
 
@@ -7,4 +9,12 @@ export function displayWelcomeMessage(user) {
     `;
 
     welcomeContainer.innerHTML = welcomeMessage;
+
+    // Create a container for the online users list
+    const onlineUsersContainer = document.createElement('div');
+    onlineUsersContainer.id = 'onlineUsersList';
+    welcomeContainer.appendChild(onlineUsersContainer);
+
+    displayOnlineUsers(user);
 }
+

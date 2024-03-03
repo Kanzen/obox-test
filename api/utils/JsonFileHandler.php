@@ -1,7 +1,7 @@
 <?php
 class JsonFileHandler 
 {
-    private static $dataDirectory = __DIR__ . '/../data/';
+    private static $dataDirectory = '../data/';
 
     public static function readJsonFile($fileName) 
     {

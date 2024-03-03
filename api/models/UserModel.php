@@ -41,17 +41,19 @@ class User
         $users = JsonFileHandler::readJsonFile('users');
         $userExists = false;
         $currentUser = null;
-    
-        foreach ($users as $index => $user) {
-            if ($user['email'] === $this->email) {
-                $userExists = true;
-                $users[$index]['last_update_time'] = date('c');
-                if($this->status == 'offline') {
-                    $users[$index]['status'] =  'online';
-                    $users[$index]['entrance_time'] = date('c');
+
+        if(count($users) > 0) {
+            foreach ($users as $index => $user) {
+                if ($user['email'] === $this->email) {
+                    $userExists = true;
+                    $users[$index]['last_update_time'] = date('c');
+                    if($this->status == 'offline') {
+                        $users[$index]['status'] =  'online';
+                        $users[$index]['entrance_time'] = date('c');
+                    }
+                    $currentUser = $users[$index];
+                    break;
                 }
-                $currentUser = $users[$index];
-                break;
             }
         }
     
@@ -107,6 +109,7 @@ class User
     public static function getOnlineUsers() 
     {
         $users = JsonFileHandler::readJsonFile('users');
+
         return array_filter($users, function($user) {
             return $user['status'] === 'online';
         });
