@@ -2,6 +2,8 @@ import { displayEntranceForm } from './components/entrance.js';
 import { displayWelcomeMessage } from './components/dashboard.js';
 import { apiService } from './services/apiService.js';
 
+let currentUser;
+
 document.addEventListener('DOMContentLoaded', () => {
 
     displayEntranceForm();
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await apiService.postData('/', { name, email });
 
             if (response.status=='success') {
+                currentUser = response['user_details'];
                 displayWelcomeMessage(response['user_details']);
             } else {
                 console.error('API request was not successful');
@@ -26,4 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error making API request:', error);
         }
     });
+});
+
+window.addEventListener('beforeunload', async (event) => {
+    event.preventDefault(); // Preventing tab closing
+    
+    await apiService.putData('/', { email: currentUser.email, status: 'offline' });
+
+    setTimeout(() => {
+        window.close();
+    }, 1000);
 });
