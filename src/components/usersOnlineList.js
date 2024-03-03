@@ -2,6 +2,10 @@ import apiService from '../services/apiService.js';
 
 export async function displayOnlineUsers(currentUser) {
     const userListContainer = document.getElementById('onlineUsersList');
+    const userListHeading = userListContainer.appendChild(document.createElement('p'));
+    userListHeading.textContent = "Current online users:";
+    userListHeading.classList.add('online-users-heading');
+    
     const userList = userListContainer.appendChild(document.createElement('ul'));
 
     async function fetchAndUpdateUserList(currentUser) {
