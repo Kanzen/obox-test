@@ -42,23 +42,20 @@ class User
         $userExists = false;
         $currentUser = null;
 
-        if(count($users) > 0) {
-            foreach ($users as $index => $user) {
-                if ($user['email'] === $this->email) {
-                    $userExists = true;
-                    $users[$index]['last_update_time'] = date('c');
-                    if($this->status == 'offline') {
-                        $users[$index]['status'] =  'online';
-                        $users[$index]['entrance_time'] = date('c');
-                    }
-                    $currentUser = $users[$index];
-                    break;
-                }
+        foreach ($users as $index => $user) {
+            if ($user['email'] === $this->email) {
+                $userExists = true;
+                $users[$index]['last_update_time'] = date('c');
+                $users[$index]['status'] =  'online';
+                $users[$index]['entrance_time'] = date('c');
+                $currentUser = $users[$index];
+                break;
             }
         }
-    
+
         if (!$userExists) {
             $currentUser = $this->toArray();
+            echo "<pre>";print_r($currentUser);die();
             $users[] = $currentUser;
         }
     

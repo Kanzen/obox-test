@@ -20,8 +20,32 @@ export async function displayOnlineUsers(currentUser) {
                 let isCurrentUser = (user.email === currentUser.email);
                 const li = document.createElement('li');
                 li.textContent = (isCurrentUser) ? user.name + ' (you)' : user.name;
-                userList.appendChild(li);
                 
+                li.addEventListener('click', (event) => {
+                    //show user details
+                    const userDetailsDiv = document.createElement('div');
+                    userDetailsDiv.classList.add('user-details');
+                    userDetailsDiv.innerHTML = `
+                        <p>User Details:</p>
+                        <p>Name: ${user.name}</p>
+                        <p>Email: ${user.email}</p>
+                        <p>User Agent: ${user.user_agent}</p>
+                        <p>Entrance Time: ${new Date(user.entrance_time).toLocaleTimeString()}</p>
+                        <p>Visit count: ${user.visits_count}</p>`;
+                    
+                    userDetailsDiv.style.position = 'absolute';
+                    userDetailsDiv.style.top = `${event.clientY}px`;
+                    userDetailsDiv.style.left = `${event.clientX}px`;
+                    
+                    document.body.appendChild(userDetailsDiv);
+                    
+                    // Hide div aafter 10 seconds
+                    setTimeout(() => {
+                        userDetailsDiv.remove();
+                    }, 10000);
+                });
+                
+                userList.appendChild(li);
             });
         } else {
             const li = document.createElement('li');
