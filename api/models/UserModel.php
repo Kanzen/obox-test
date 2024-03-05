@@ -46,7 +46,7 @@ class User
             if ($user['email'] === $this->email) {
                 $userExists = true;
                 $users[$index]['last_update_time'] = date('c');
-                $users[$index]['status'] =  'online';
+                $users[$index]['status'] =  $this->status;
                 $users[$index]['entrance_time'] = date('c');
                 $currentUser = $users[$index];
                 break;
@@ -55,7 +55,6 @@ class User
 
         if (!$userExists) {
             $currentUser = $this->toArray();
-            echo "<pre>";print_r($currentUser);die();
             $users[] = $currentUser;
         }
     
@@ -107,8 +106,8 @@ class User
     {
         $users = JsonFileHandler::readJsonFile('users');
 
-        return array_filter($users, function($user) {
+        return array_values(array_filter($users, function($user) {
             return $user['status'] === 'online';
-        });
+        }));
     }
 }

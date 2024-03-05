@@ -39,12 +39,16 @@ class API
 
     private function handlePostRequest() 
     {
-        $postData = json_decode(file_get_contents('php://input'), true);
+        $postData = json_decode(file_get_contents('php://input'), true);        
 
-        if (isset($postData['name']) && isset($postData['email']) && count($postData) === 2) {
+        $isLogin = isset($postData['name']) && isset($postData['email']);
+        $isLogout = isset($postData['status']) && isset($postData['email']);
+        
+        if ($isLogin || $isLogout) {
             $existingUser = User::getByEmail($postData['email']);
 
-            if ($existingUser) {
+            if ($existingUser) {                
+                $existingUser->setFromArray(['status'=> $isLogin ? 'online' : 'offline']);
                 $user = $existingUser->upsert();
                 $this->respondSuccess("Success: " . $user['name'] . " successfully logged in.", $user);
             } else {
