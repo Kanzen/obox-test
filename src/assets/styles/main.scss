@@ -1,0 +1,105 @@
+@import '_variables';
+
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #202124;
+    color: $secondary-color;
+}
+h1 {
+    font-size: 28px;
+    text-align: center;
+}
+input[type=text], input[type=email] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px $secondary-color solid;
+    color: $secondary-color;
+    font-size: 28px;
+    width: 60%;
+}
+input[type=text]:focus, input[type=email]:focus {
+    outline: none;
+}
+
+#app-container {
+    width: 50%;
+    height: 100vh;
+    padding: $spacing-medium;
+    margin: 0 auto;
+    #entranceForm {
+        text-align: center;
+    }
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: $spacing-small;
+}
+.justify-centre {
+    justify-content: center;
+}
+
+.card {
+    background-color: #3c4043;
+    padding: 25px;
+    border-radius: 25px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+
+    .submit-btn {
+        background: transparent;
+        color: $secondary-color;
+        border: 1px $secondary-color solid;
+        border-radius: 2px;
+        padding: 15px;
+        font-size: 24px;
+        margin-top: 15px;
+    }
+}
+
+.user-details {
+    background-color: $primary-color;
+    padding: $spacing-medium;
+    border-radius: 5px;
+    border: 2px solid $secondary-color;
+    max-width: 240px;
+}
+.profile {
+    width: 100px;
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+    float: left;
+    border: 1px $secondary-color solid;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    .avatar {
+        width: 80px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+
+.online-users-heading {
+    color: #aecbfa;
+    margin-bottom: $spacing-small;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
