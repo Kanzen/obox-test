@@ -2,9 +2,7 @@ export function displayEntranceForm() {
     const welcomeContainer = document.getElementById('app-container');
 
     const entranceForm = `
-        <div class="card">
-            <h1>Welcome to the Live Users Dashboard</h1>
-        </div>
+        <h1>Welcome to the Live Users Dashboard</h1>
         <div class="card">
             <form id="entranceForm">
                 <p>Please enter your details below:</p>
