@@ -46,6 +46,9 @@ class User
             if ($user['email'] === $this->email) {
                 $userExists = true;
                 $users[$index]['last_update_time'] = date('c');
+                if($users[$index]['status'] == 'offline') {
+                    $users[$index]['visits_count'] += 1;
+                }
                 $users[$index]['status'] =  $this->status;
                 $users[$index]['entrance_time'] = date('c');
                 $currentUser = $users[$index];
