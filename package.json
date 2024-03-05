@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test && vendor/bin/phpunit api/tests",
     "compile-sass": "node-sass src/assets/styles/main.scss src/assets/styles/main.css"
   },
   "author": "Karl Hohls",
