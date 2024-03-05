@@ -5,8 +5,10 @@ export async function displayOnlineUsers(currentUser) {
     const userListHeading = userListContainer.appendChild(document.createElement('p'));
     userListHeading.textContent = "Current online users:";
     userListHeading.classList.add('online-users-heading');
+    userListHeading.classList.add('row');
     
-    const userList = userListContainer.appendChild(document.createElement('ul'));
+    const userList = userListContainer.appendChild(document.createElement('div'));
+    userList.classList.add('row');
 
     async function fetchAndUpdateUserList(currentUser) {
 
@@ -17,20 +19,25 @@ export async function displayOnlineUsers(currentUser) {
         if(users.length > 0) {
             users.forEach(user => {
                 let isCurrentUser = (user.email === currentUser.email);
-                const li = document.createElement('li');
-                li.textContent = (isCurrentUser) ? user.name + ' (you)' : user.name;
-                li.addEventListener('click', async (event) => {
+                const userContainer = document.createElement('div');
+                userContainer.classList.add('profile');
+                let userName = (isCurrentUser) ? user.name + ' (you)' : user.name;
+                userContainer.innerHTML = `
+                    <img src="assets/images/avatar.png" class="avatar" />
+                    <p>${userName}</p>
+                `;
+                userContainer.addEventListener('click', async (event) => {
                     //show user details
                     const userDetails = await apiService.getData('/api/', { email: user.email });
                     const userDetailsDiv = document.createElement('div');
                     userDetailsDiv.classList.add('user-details');
                     userDetailsDiv.innerHTML = `
-                        <p>User Details:</p>
-                        <p>Name: ${userDetails.name}</p>
-                        <p>Email: ${userDetails.email}</p>
-                        <p>User Agent: ${userDetails.user_agent}</p>
-                        <p>Entrance Time: ${new Date(userDetails.entrance_time).toLocaleTimeString()}</p>
-                        <p>Visit count: ${userDetails.visits_count}</p>`;
+                        <p><strong>User Details:</strong></p>
+                        <p><strong>Name:</strong> ${userDetails.name}</p>
+                        <p><strong>Email:</strong> ${userDetails.email}</p>
+                        <p><strong>User Agent:</strong> ${userDetails.user_agent}</p>
+                        <p><strong>Entrance Time:</strong> ${new Date(userDetails.entrance_time).toLocaleTimeString()}</p>
+                        <p><strong>Visit count:</strong> ${userDetails.visits_count}</p>`;
                     
                     userDetailsDiv.style.position = 'absolute';
                     userDetailsDiv.style.top = `${event.clientY}px`;
@@ -45,18 +52,18 @@ export async function displayOnlineUsers(currentUser) {
                     });
                 });
                 
-                userList.appendChild(li);
+                userList.appendChild(userContainer);
             });
         } else {
-            const li = document.createElement('li');
+            const p = document.createElement('p');
             li.textContent = 'No users online';
-            userList.appendChild(li);
+            userList.appendChild(p);
         }
     }
 
     fetchAndUpdateUserList(currentUser);
 
     // Update the user list every 3 seconds
-    setInterval(() => fetchAndUpdateUserList(currentUser), 3000);
+    setInterval(() => fetchAndUpdateUserList(currentUser), 30000);
 }
 
