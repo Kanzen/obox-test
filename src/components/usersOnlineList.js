@@ -12,26 +12,25 @@ export async function displayOnlineUsers(currentUser) {
 
         userList.innerHTML = '';
 
-        const users = await apiService.getData('/', { status: 'online' });
-        console.log(users);
+        const users = await apiService.getData('/api/', { status: 'online' });
 
         if(users.length > 0) {
             users.forEach(user => {
                 let isCurrentUser = (user.email === currentUser.email);
                 const li = document.createElement('li');
                 li.textContent = (isCurrentUser) ? user.name + ' (you)' : user.name;
-                
-                li.addEventListener('click', (event) => {
+                li.addEventListener('click', async (event) => {
                     //show user details
+                    const userDetails = await apiService.getData('/api/', { email: user.email });
                     const userDetailsDiv = document.createElement('div');
                     userDetailsDiv.classList.add('user-details');
                     userDetailsDiv.innerHTML = `
                         <p>User Details:</p>
-                        <p>Name: ${user.name}</p>
-                        <p>Email: ${user.email}</p>
-                        <p>User Agent: ${user.user_agent}</p>
-                        <p>Entrance Time: ${new Date(user.entrance_time).toLocaleTimeString()}</p>
-                        <p>Visit count: ${user.visits_count}</p>`;
+                        <p>Name: ${userDetails.name}</p>
+                        <p>Email: ${userDetails.email}</p>
+                        <p>User Agent: ${userDetails.user_agent}</p>
+                        <p>Entrance Time: ${new Date(userDetails.entrance_time).toLocaleTimeString()}</p>
+                        <p>Visit count: ${userDetails.visits_count}</p>`;
                     
                     userDetailsDiv.style.position = 'absolute';
                     userDetailsDiv.style.top = `${event.clientY}px`;
@@ -39,10 +38,11 @@ export async function displayOnlineUsers(currentUser) {
                     
                     document.body.appendChild(userDetailsDiv);
                     
-                    // Hide div aafter 10 seconds
-                    setTimeout(() => {
-                        userDetailsDiv.remove();
-                    }, 10000);
+                    document.addEventListener('click', async (event) => {
+                        if (!userDetailsDiv.contains(event.target)) {
+                            userDetailsDiv.remove();
+                        }
+                    });
                 });
                 
                 userList.appendChild(li);
