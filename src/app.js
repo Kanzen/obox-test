@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value;
 
         try {
-            const response = await apiService.postData('/', { name, email });
+            const response = await apiService.postData('/api/', { name, email });
 
             if (response.status=='success') {
                 currentUser = response['user_details'];
@@ -28,15 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error making API request:', error);
         }
+
+        window.addEventListener('beforeunload', async (event) => {
+            event.preventDefault(); // Preventing tab closing/
+            await apiService.postData('/api/', { email: currentUser.email, status: 'offline' });
+            
+        });
     });
 });
 
-window.addEventListener('beforeunload', async (event) => {
-    event.preventDefault(); // Preventing tab closing
-    
-    await apiService.putData('/', { email: currentUser.email, status: 'offline' });
-
-    setTimeout(() => {
-        window.close();
-    }, 1000);
-});
